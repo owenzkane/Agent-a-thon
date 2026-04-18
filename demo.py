@@ -1,14 +1,12 @@
 # ── CELL 1: Install dependencies ──────────────────────────────
-!pip install openai tavily-python gradio requests --quiet
+# pip install openai tavily-python gradio requests python-dotenv
 
 # ── CELL 2: Load your API keys ────────────────────────────────
-# Only two keys needed — OpenAI and Tavily.
-# Discord webhook is already set up for the event.
-from google.colab import userdata
+# Keys are loaded from key.env in this directory.
+from dotenv import load_dotenv
 import os
 
-os.environ["OPENAI_API_KEY"] = userdata.get("OPENAI_API_KEY")
-os.environ["TAVILY_API_KEY"] = userdata.get("TAVILY_API_KEY")
+load_dotenv("key.env")
 
 # Discord webhook — already configured for Agentathon
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1494550573083660369/sgTG8d_JnvSQbMxl3fYFYHUIErt4z7tQ9vrNfiyQER9O_SBisOHuBmI6_nw88YJHtB1z"
@@ -125,8 +123,6 @@ print("✅ Tools registered:", list(TOOL_FUNCTIONS.keys()))
 # Core logic — you don't need to change this.
 # Every response automatically posts to Discord.
 # If Discord fails for any reason, the agent keeps working.
-
-import requests as _requests
 
 def _post_discord(user_msg, reply):
     """Fire and forget — never crashes the agent."""
